@@ -1,23 +1,15 @@
-const Tour = require('../models/tourModel');
+const Voter = require('../models/voterModel');
+// const Tour = require('../models/voterModel');
 
-exports.getAllTours = async (req, res) => {
+exports.getAllVoters = async (req, res) => {
   try {
-    // const queryObj = { ...req.query };
-    const queryObj = JSON.parse(JSON.stringify(req.query));
-    console.log(req.query);
-
-    const tours = await Tour.find(req.query);
-
-    // const tours = await Tour.find()
-    //   .where('duration')
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy');
+    const voters = await Voter.find();
+    // console.log(voters);
 
     res.status(200).json({
       status: 'success',
-      results: tours.length,
-      data: { tours: tours },
+      results: voters.length,
+      data: { voters },
     });
   } catch (err) {
     res.status(404).json({
@@ -27,15 +19,15 @@ exports.getAllTours = async (req, res) => {
   }
 };
 
-exports.getTour = async (req, res) => {
+exports.getVoter = async (req, res) => {
   try {
-    const tour = await Tour.findById(req.params.id);
+    const voter = await Voter.findById(req.params.id);
     // Tour.findOne({_id: req.params.id})
 
     res.status(200).json({
       status: 'success',
       data: {
-        tour,
+        voter,
       },
     });
   } catch (err) {
@@ -46,17 +38,17 @@ exports.getTour = async (req, res) => {
   }
 };
 
-exports.createTour = async (req, res) => {
+exports.createVoter = async (req, res) => {
   // const newTour = new Tour({});
   // newTour.save();
 
   try {
-    const newTour = await Tour.create(req.body);
+    const newVoter = await Voter.create(req.body);
 
     res.status(201).json({
       status: 'success',
       data: {
-        tour: newTour,
+        voter: newVoter,
       },
     });
   } catch (err) {
@@ -67,16 +59,16 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.updateTour = async (req, res) => {
+exports.updateVoter = async (req, res) => {
   try {
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+    const voter = await Voter.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
     });
 
     res.status(201).json({
       status: 'success',
-      data: { tour },
+      data: { voter },
     });
   } catch (err) {
     res.status(404).json({
@@ -86,9 +78,9 @@ exports.updateTour = async (req, res) => {
   }
 };
 
-exports.deleteTour = async (req, res) => {
+exports.deleteVoter = async (req, res) => {
   try {
-    await Tour.findByIdAndDelete(req.params.id);
+    await Voter.findByIdAndDelete(req.params.id);
 
     res.status(204).json({
       status: 'success',

@@ -4,7 +4,8 @@ const morgan = require('morgan');
 
 const app = express();
 
-const tourRouter = require('./routes/tourRoutes');
+// const tourRouter = require('./routes/tourRoutes');
+const voterRouter = require('./routes/voterRoutes');
 const userRouter = require('./routes/userRoutes');
 // const { dirname } = require('path');
 
@@ -27,7 +28,7 @@ app.use((req, res, next) => {
 
 // 3) ROUTES
 
-app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/voters', voterRouter);
 app.use('/api/v1/users', userRouter);
 
 // 4) START SERVER
