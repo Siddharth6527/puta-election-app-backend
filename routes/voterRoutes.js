@@ -11,7 +11,7 @@ router
 router
   .route('/:id')
   .get(voterController.getVoter)
-  .patch(voterController.createVoter)
+  .patch(voterController.updateVoter)
   .delete(voterController.deleteVoter);
 
 module.exports = router;
