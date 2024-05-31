@@ -1,10 +1,18 @@
 const Voter = require('../models/voterModel');
 // const Tour = require('../models/voterModel');
+const APIFeatures = require('../utils/apiFeatures');
 
 exports.getAllVoters = async (req, res) => {
   try {
-    const voters = await Voter.find();
-    // console.log(voters);
+    // const voters = await Voter.find();
+    // EXECUTE QUERY
+    const features = new APIFeatures(Voter.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate();
+
+    const voters = await features.query;
 
     res.status(200).json({
       status: 'success',
