@@ -4,7 +4,6 @@ const morgan = require('morgan');
 
 const app = express();
 
-// const tourRouter = require('./routes/tourRoutes');
 const voterRouter = require('./routes/voterRoutes');
 const candidateRouter = require('./routes/candidateRoutes');
 // const { dirname } = require('path');
