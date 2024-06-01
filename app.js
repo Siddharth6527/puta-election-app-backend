@@ -6,7 +6,7 @@ const app = express();
 
 // const tourRouter = require('./routes/tourRoutes');
 const voterRouter = require('./routes/voterRoutes');
-const userRouter = require('./routes/userRoutes');
+const candidateRouter = require('./routes/candidateRoutes');
 // const { dirname } = require('path');
 
 // 1) MIDDLEWARES
@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 // 3) ROUTES
 
 app.use('/api/v1/voters', voterRouter);
-app.use('/api/v1/users', userRouter);
+app.use('/api/v1/candidates', candidateRouter);
 
 // 4) START SERVER
 module.exports = app;
