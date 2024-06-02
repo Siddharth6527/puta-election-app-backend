@@ -26,6 +26,7 @@ const candidateSchema = new mongoose.Schema({
   position: {
     type: String,
     required: [true, 'Must have a position'],
+    unique: true,
   },
   candidates: [candidatesSchema],
 });
