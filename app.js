@@ -1,12 +1,12 @@
 const express = require('express');
-// const { create } = require('domain');
 const morgan = require('morgan');
 
 const app = express();
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
 
 const voterRouter = require('./routes/voterRoutes');
 const candidateRouter = require('./routes/candidateRoutes');
-// const { dirname } = require('path');
 
 // 1) MIDDLEWARES
 if (process.env.NODE_ENV === 'development') {
@@ -14,11 +14,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
-
-app.use((req, res, next) => {
-  console.log('hello from middleware 🙋‍♂️');
-  next();
-});
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -29,6 +24,14 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/voters', voterRouter);
 app.use('/api/v1/candidates', candidateRouter);
+
+// FOR HANDLING UNHANDLED ROUTES
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 400));
+});
+
+// GLOBAL ERROR HANDLING
+app.use(globalErrorHandler);
 
 // 4) START SERVER
 module.exports = app;

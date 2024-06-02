@@ -5,16 +5,19 @@ const voterSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A voter must have a name'],
     trim: true,
+    minLength: 5,
   },
   college: {
     type: String,
     required: [true, 'A voter must have a college'],
     trim: true,
+    minLength: 5,
   },
   collegeInitials: {
     type: String,
     required: [true, 'A voter must have a college initials'],
     trim: true,
+    minLength: 2,
   },
   voted: {
     type: Boolean,
