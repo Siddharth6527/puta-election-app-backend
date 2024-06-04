@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const voterSchema = new mongoose.Schema({
   sno: {
@@ -60,6 +61,27 @@ const voterSchema = new mongoose.Schema({
     },
   },
 });
+
+// SAVING THE ENCRYPTED PASSWORD
+voterSchema.pre('save', async function (next) {
+  // only run this function if the password is actually modified
+  if (!this.isModified('password')) return next();
+
+  // hash the password with cost of 12
+  this.password = await bcrypt.hash(this.password, 12);
+
+  // delete passwordConfirm field
+  this.passwordConfirm = undefined;
+  next();
+});
+
+// INSTANCE FUNCTION ~ available on all documents
+voterSchema.methods.correctPassword = async function (
+  voterPassword,
+  userPassword,
+) {
+  return await bcrypt.compare(voterPassword, userPassword);
+};
 
 const Voter = mongoose.model('Voter', voterSchema);
 
