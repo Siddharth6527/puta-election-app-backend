@@ -47,7 +47,7 @@ const voterSchema = new mongoose.Schema({
   password: {
     type: String,
     minLength: 8,
-    // select: false,
+    select: false,
   },
   passwordConfirm: {
     type: String,
