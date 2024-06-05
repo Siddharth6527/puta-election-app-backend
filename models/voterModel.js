@@ -40,18 +40,22 @@ const voterSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'A voter must have a email'],
+    // required: [true, 'A voter must have a email'],
     lowercase: true,
+    default: 'voter@puta2024.in',
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
   password: {
     type: String,
     minLength: 8,
-    select: false,
+    // select: false,
+    // default: 'helloIamVoter@puta2024',
   },
   passwordConfirm: {
     type: String,
-    required: [true],
+    // required: [true],
+    // select: false,
+    // default: 'helloIamVoter@puta2024',
     validate: {
       // this only works on CREATE and SAVE!!
       validator: function (el) {
