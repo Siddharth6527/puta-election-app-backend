@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 
 const app = express();
+const cors = require('cors');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 
@@ -12,6 +13,14 @@ const candidateRouter = require('./routes/candidateRoutes');
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+const corsOptions = {
+  origin: 'https://puta-election-app-frontend.onrender.com/',
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
