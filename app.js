@@ -16,6 +16,8 @@ if (process.env.NODE_ENV === 'development') {
 
 const corsOptions = {
   origin: 'https://puta-election-app-frontend.onrender.com/',
+  methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization',
   optionsSuccessStatus: 200,
 };
 
@@ -25,6 +27,7 @@ app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
+  console.log(req.headers);
   req.requestTime = new Date().toISOString();
   next();
 });
