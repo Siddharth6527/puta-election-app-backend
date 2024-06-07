@@ -3,6 +3,8 @@ const candidateController = require('../controllers/candidateController');
 
 const router = express.Router();
 
+router.get('/votesUpdate/:posId/:canId', candidateController.votesUpdate);
+
 router
   .route('/')
   .get(candidateController.getAllCandidates)

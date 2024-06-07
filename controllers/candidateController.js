@@ -53,3 +53,20 @@ exports.deleteCandidates = catchAsync(async (req, res) => {
     data: null,
   });
 });
+
+exports.votesUpdate = catchAsync(async (req, res) => {
+  const pos = await Candidate.findById(req.params.posId);
+
+  pos.candidates.forEach((el) => {
+    if (el.id === req.params.canId) {
+      el.voteCount += 1;
+    }
+  });
+
+  pos.save();
+
+  res.status(200).json({
+    status: 200,
+    message: pos,
+  });
+});
