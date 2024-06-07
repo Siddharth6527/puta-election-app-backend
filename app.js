@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const corsOptions = {
-  origin: 'https://puta-election-app-frontend.onrender.com/',
+  origin: 'https://puta-election-app-frontend.onrender.com',
   optionsSuccessStatus: 200,
 };
 
