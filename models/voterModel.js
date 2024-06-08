@@ -27,6 +27,7 @@ const voterSchema = new mongoose.Schema({
   receiptNo: {
     type: Number,
     required: [true, 'A voter must have receipt number'],
+    unique: [true, 'A voter must have a unique receiipt number'],
   },
   voted: {
     type: Boolean,
