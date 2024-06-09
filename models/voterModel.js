@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
 const bcrypt = require('bcryptjs');
 
 const voterSchema = new mongoose.Schema({
-  sno: {
-    type: Number,
-    required: [true, 'A voter must have serial no'],
-  },
+  // sno: {
+  //   type: Number,
+  //   required: [true, 'A voter must have serial no'],
+  // },
   name: {
     type: String,
     required: [true, 'A voter must have a name'],
@@ -41,10 +40,9 @@ const voterSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    // required: [true, 'A voter must have a email'],
+    required: [true, 'A voter must have a email'],
     lowercase: true,
-    default: 'voter@puta2024.in',
-    validate: [validator.isEmail, 'Please provide a valid email'],
+    // default: 'voter@puta2024.in',
   },
   password: {
     type: String,
