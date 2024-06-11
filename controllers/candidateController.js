@@ -37,11 +37,14 @@ exports.addCandidates = catchAsync(async (req, res) => {
 });
 
 exports.updateCandidates = catchAsync(async (req, res) => {
-  const candidates = await Candidate.findByIdAndUpdate(req.params.id, req.body);
+  const members = await Candidate.findById(req.params.id);
+  const { candidates } = members;
+  req.body.candidates.forEach((el) => candidates.push(el));
+  members.save();
 
   res.status(201).json({
     status: 'success',
-    data: { candidates },
+    data: { members },
   });
 });
 
