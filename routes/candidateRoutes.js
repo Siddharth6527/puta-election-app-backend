@@ -3,8 +3,6 @@ const candidateController = require('../controllers/candidateController');
 
 const router = express.Router();
 
-router.get('/votesUpdate/:posId/:canId', candidateController.votesUpdate);
-
 router
   .route('/')
   .get(candidateController.getAllCandidates)
@@ -13,7 +11,10 @@ router
 router
   .route('/:id')
   .get(candidateController.getCandidate)
-  .patch(candidateController.updateCandidates)
-  .delete(candidateController.deleteCandidates);
+  .patch(candidateController.updateCandidates);
+// .delete(candidateController.deleteCandidates);
+
+router.get('/votesUpdate/:posId/:canId', candidateController.votesUpdate);
+router.route('/:posId/:canId').get(candidateController.deleteCandidates);
 
 module.exports = router;

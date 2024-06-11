@@ -49,7 +49,11 @@ exports.updateCandidates = catchAsync(async (req, res) => {
 });
 
 exports.deleteCandidates = catchAsync(async (req, res) => {
-  await Candidate.findByIdAndDelete(req.params.id);
+  const position = await Candidate.findById(req.params.posId);
+  position.candidates = position.candidates.filter(
+    (el) => el.id !== req.params.canId,
+  );
+  position.save();
 
   res.status(204).json({
     status: 'success',
