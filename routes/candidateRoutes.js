@@ -1,21 +1,49 @@
 const express = require('express');
 const candidateController = require('../controllers/candidateController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
 router
   .route('/')
-  .get(candidateController.getAllCandidates)
-  .post(candidateController.addCandidates);
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'dev'),
+    candidateController.getAllCandidates,
+  )
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'dev'),
+    candidateController.addCandidates,
+  );
 
 router
   .route('/:id')
-  .get(candidateController.getCandidate)
-  .patch(candidateController.updateCandidates);
+  .get(
+    authController.protect,
+    authController.restrictTo('admin', 'dev'),
+    candidateController.getCandidate,
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin', 'dev'),
+    candidateController.updateCandidates,
+  );
 // .delete(candidateController.deleteCandidates);
 
 // CUSTOM ROUTES
-router.get('/votesUpdate/:posId/:canId', candidateController.votesUpdate);
-router.route('/:posId/:canId').get(candidateController.deleteCandidates);
+router.get(
+  '/votesUpdate/:posId/:canId',
+  authController.protect,
+  authController.restrictTo('admin', 'voter', 'dev'),
+  candidateController.votesUpdate,
+);
+router
+  .route('/:posId/:canId')
+  .get(
+    authController.protect,
+    authController.restrictTo('dev', 'admin'),
+    candidateController.deleteCandidates,
+  );
 
 module.exports = router;

@@ -4,22 +4,43 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.post('/signup', authController.signup);
-router.post('/login', authController.login);
+router.post(
+  '/signup',
+  authController.protect,
+  authController.restrictTo('admin', 'dev'),
+  authController.signup,
+);
+router.post('/login', authController.login); // anyone can
 
 router
   .route('/')
-  .get(voterController.getAllVoters)
-  .post(voterController.createVoter);
+  .get(
+    authController.protect,
+    authController.restrictTo('voter', 'admin', 'dev'),
+    voterController.getAllVoters,
+  )
+  .post(
+    authController.protect,
+    authController.restrictTo('admin', 'dev'),
+    voterController.createVoter,
+  );
 
 router
   .route('/:id')
-  .get(voterController.getVoter)
+  .get(
+    authController.protect,
+    authController.restrictTo('dev'),
+    voterController.getVoter,
+  )
   .patch(
     authController.protect,
-    authController.restrictTo('admin'),
+    authController.restrictTo('admin', 'dev'),
     voterController.updateVoter,
   )
-  .delete(voterController.deleteVoter);
+  .delete(
+    authController.protect,
+    authController.restrictTo('admin', 'dev'),
+    voterController.deleteVoter,
+  );
 
 module.exports = router;
