@@ -15,7 +15,11 @@ router
 router
   .route('/:id')
   .get(voterController.getVoter)
-  .patch(voterController.updateVoter)
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin'),
+    voterController.updateVoter,
+  )
   .delete(voterController.deleteVoter);
 
 module.exports = router;

@@ -44,6 +44,7 @@ const voterSchema = new mongoose.Schema({
     lowercase: true,
     // default: 'voter@puta2024.in',
   },
+  role: { type: String, enum: ['voter', 'admin'], default: 'voter' },
   password: {
     type: String,
     minLength: 8,
@@ -62,6 +63,9 @@ const voterSchema = new mongoose.Schema({
       },
       message: 'Passwords are not the same!',
     },
+  },
+  passwordChangedAt: {
+    type: Date,
   },
 });
 
@@ -84,6 +88,20 @@ voterSchema.methods.correctPassword = async function (
   userPassword,
 ) {
   return await bcrypt.compare(voterPassword, userPassword);
+};
+
+voterSchema.methods.changedPasswordAfter = function (JWTTimeStamp) {
+  if (this.passwordChangedAt) {
+    const changedTimeStamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10,
+    );
+
+    return JWTTimeStamp < changedTimeStamp; // 100 < 200
+  }
+
+  // False means NOT changed
+  return false;
 };
 
 const Voter = mongoose.model('Voter', voterSchema);

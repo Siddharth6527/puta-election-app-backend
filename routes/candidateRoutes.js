@@ -14,6 +14,7 @@ router
   .patch(candidateController.updateCandidates);
 // .delete(candidateController.deleteCandidates);
 
+// CUSTOM ROUTES
 router.get('/votesUpdate/:posId/:canId', candidateController.votesUpdate);
 router.route('/:posId/:canId').get(candidateController.deleteCandidates);
 
