@@ -22,6 +22,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     receiptNo: req.body.receiptNo,
     college: req.body.college,
     voted: req.body.voted,
+    role: req.body.role,
   });
 
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
