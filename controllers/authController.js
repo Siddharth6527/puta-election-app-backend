@@ -104,6 +104,30 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
 
+exports.updatePasssword = catchAsync(async (req, res, next) => {
+  const voter = await Voter.findById(req.user.id).select('+password');
+
+  if (
+    !(await voter.correctPassword(req.body.passwordCurrent, voter.password))
+  ) {
+    return next(new AppError('You current password is wrong', 401));
+  }
+
+  voter.password = req.body.password;
+  voter.passwordConfirm = req.body.passwordConfirm;
+  await voter.save();
+
+  const token = jwt.sign({ id: voter._id }, process.env.JWT_SECRET, {
+    expiresIn: '1h',
+  });
+
+  res.status(200).json({
+    status: 'success',
+    token,
+    data: { voter },
+  });
+});
+
 // roles ['admin', 'lead-guide']. role='user'
 exports.restrictTo =
   (...roles) =>

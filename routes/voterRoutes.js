@@ -13,6 +13,14 @@ router.post(
 router.post('/login', authController.login); // anyone can
 
 router
+  .route('/updatePassword')
+  .patch(
+    authController.protect,
+    authController.restrictTo('dev', 'admin', 'voter'),
+    authController.updatePasssword,
+  );
+
+router
   .route('/')
   .get(
     authController.protect,

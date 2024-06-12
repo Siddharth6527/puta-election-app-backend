@@ -44,17 +44,17 @@ const voterSchema = new mongoose.Schema({
     lowercase: true,
     // default: 'voter@puta2024.in',
   },
-  role: { type: String, enum: ['voter', 'admin'], default: 'voter' },
+  role: { type: String, enum: ['voter', 'admin', 'dev'], default: 'voter' },
   password: {
     type: String,
     minLength: 8,
-    // select: false,
+    select: false,
     // default: 'helloIamVoter@puta2024',
   },
   passwordConfirm: {
     type: String,
     // required: [true],
-    // select: false,
+    select: false,
     // default: 'helloIamVoter@puta2024',
     validate: {
       // this only works on CREATE and SAVE!!
@@ -64,6 +64,7 @@ const voterSchema = new mongoose.Schema({
       message: 'Passwords are not the same!',
     },
   },
+  // not required, used when password is changed
   passwordChangedAt: {
     type: Date,
   },
@@ -79,6 +80,15 @@ voterSchema.pre('save', async function (next) {
 
   // delete passwordConfirm field
   this.passwordConfirm = undefined;
+  next();
+});
+
+voterSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) {
+    return next();
+  }
+
+  this.passwordChangedAt = Date.now() - 1000;
   next();
 });
 
