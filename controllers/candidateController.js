@@ -79,7 +79,9 @@ exports.votesUpdate = catchAsync(async (req, res, next) => {
   await pos.save();
 
   // for updating the voter (voted: true)
-  await Voter.findByIdAndUpdate(req.body.voterId);
+  await Voter.findByIdAndUpdate(req.body.voterId, {
+    voted: true,
+  });
 
   res.status(200).json({
     status: 200,
