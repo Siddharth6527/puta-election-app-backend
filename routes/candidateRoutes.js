@@ -32,8 +32,9 @@ router
 // .delete(candidateController.deleteCandidates);
 
 // CUSTOM ROUTES
-router.get(
-  '/votesUpdate/:posId/:canId',
+router.post(
+  // '/votesUpdate/:posId/:canId',
+  '/votesUpdate',
   authController.protect,
   authController.restrictTo('admin', 'voter', 'dev'),
   candidateController.votesUpdate,

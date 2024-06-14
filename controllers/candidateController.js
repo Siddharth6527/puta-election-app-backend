@@ -1,6 +1,8 @@
 const Candidate = require('../models/candidateModel');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
+const Voter = require('../models/voterModel');
+const AppError = require('../utils/appError');
 
 exports.getAllCandidates = catchAsync(async (req, res) => {
   const features = new APIFeatures(Candidate.find(), req.query)
@@ -40,7 +42,7 @@ exports.updateCandidates = catchAsync(async (req, res) => {
   const members = await Candidate.findById(req.params.id);
   const { candidates } = members;
   req.body.candidates.forEach((el) => candidates.push(el));
-  members.save();
+  await members.save();
 
   res.status(201).json({
     status: 'success',
@@ -53,7 +55,7 @@ exports.deleteCandidates = catchAsync(async (req, res) => {
   position.candidates = position.candidates.filter(
     (el) => el.id !== req.params.canId,
   );
-  position.save();
+  await position.save();
 
   res.status(204).json({
     status: 'success',
@@ -61,16 +63,23 @@ exports.deleteCandidates = catchAsync(async (req, res) => {
   });
 });
 
-exports.votesUpdate = catchAsync(async (req, res) => {
-  const pos = await Candidate.findById(req.params.posId);
+exports.votesUpdate = catchAsync(async (req, res, next) => {
+  const pos = await Candidate.findById(req.body.posId);
+
+  if (!pos) {
+    return next(new AppError('The position not found! Please try again.', 400));
+  }
 
   pos.candidates.forEach((el) => {
-    if (el.id === req.params.canId) {
+    if (el.id === req.body.canId) {
       el.voteCount += 1;
     }
   });
 
-  pos.save();
+  await pos.save();
+
+  // for updating the voter (voted: true)
+  await Voter.findByIdAndUpdate(req.body.voterId);
 
   res.status(200).json({
     status: 200,
