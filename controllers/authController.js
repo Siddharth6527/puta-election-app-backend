@@ -60,6 +60,9 @@ exports.login = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     token: token,
+    role: user.role,
+    id: user._id,
+    voted: user.voted,
   });
 });
 

@@ -8,7 +8,7 @@ router
   .route('/')
   .get(
     authController.protect,
-    authController.restrictTo('admin', 'dev'),
+    authController.restrictTo('admin', 'dev', 'voter'),
     candidateController.getAllCandidates,
   )
   .post(
