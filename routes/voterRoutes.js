@@ -37,7 +37,7 @@ router
   .route('/:id')
   .get(
     authController.protect,
-    authController.restrictTo('dev'),
+    authController.restrictTo('dev', 'voter'),
     voterController.getVoter,
   )
   .patch(
