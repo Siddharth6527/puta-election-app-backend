@@ -99,6 +99,13 @@ exports.resetVotes = catchAsync(async (req, res, next) => {
 
   positions.forEach((el) => el.save());
 
+  // Also mark all voters as un-voted
+  const voters = await Voter.find({ role: 'voter' });
+  voters.forEach((el) => {
+    el.voted = false;
+    el.save();
+  });
+
   res.status(200).json({
     status: 'success',
     data: positions,
