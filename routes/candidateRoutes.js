@@ -3,6 +3,13 @@ const candidateController = require('../controllers/candidateController');
 const authController = require('../controllers/authController');
 
 const router = express.Router();
+router
+  .route('/resetVotes')
+  .get(
+    authController.protect,
+    authController.restrictTo('dev', 'admin'),
+    candidateController.resetVotes,
+  );
 
 router
   .route('/')
@@ -29,11 +36,9 @@ router
     authController.restrictTo('admin', 'dev'),
     candidateController.updateCandidates,
   );
-// .delete(candidateController.deleteCandidates);
 
 // CUSTOM ROUTES
 router.post(
-  // '/votesUpdate/:posId/:canId',
   '/votesUpdate',
   authController.protect,
   authController.restrictTo('admin', 'voter', 'dev'),

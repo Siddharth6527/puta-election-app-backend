@@ -88,3 +88,19 @@ exports.votesUpdate = catchAsync(async (req, res, next) => {
     message: pos,
   });
 });
+
+exports.resetVotes = catchAsync(async (req, res, next) => {
+  const positions = await Candidate.find();
+  positions.forEach((el) => {
+    el.candidates.forEach((can) => {
+      can.voteCount = 0;
+    });
+  });
+
+  positions.forEach((el) => el.save());
+
+  res.status(200).json({
+    status: 'success',
+    data: positions,
+  });
+});
