@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const corsOptions = {
-  origin: 'https://puta-election-app-frontend.onrender.com',
-  // origin: 'http://localhost:5173',
+  // origin: 'https://puta-election-app-frontend.onrender.com',
+  origin: 'http://localhost:5173',
   optionsSuccessStatus: 200,
 };
 
