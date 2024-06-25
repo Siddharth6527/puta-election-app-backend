@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const corsOptions = {
-  origin: 'https://www.pantuniversityputa.in/',
-  // origin: 'https://puta-election-app-frontend.onrender.com',
+  // origin: 'https://www.pantuniversityputa.in/',
+  origin: 'https://puta-election-app-frontend.onrender.com',
   // origin: 'http://localhost:5173',
   optionsSuccessStatus: 200,
 };
